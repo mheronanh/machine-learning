@@ -104,16 +104,3 @@ def digit_recognition(number_epochs):
     drawing(AutoassociativeMemory.OutputToGrid(amn, test), 'Recognition')
 
 digit_recognition(100)
-
-
-
-
-
-
-
-
-
-
-
-
-
