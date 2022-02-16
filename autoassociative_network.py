@@ -1,3 +1,4 @@
+from sklearn import datasets
 from matrix_lib import Matrix
 import matplotlib.pyplot as plt
 
@@ -11,7 +12,7 @@ class AutoassociativeMemory():
         self.size = int(self.height * self.width)
         self.weight = Matrix(self.size, self.size)
         self.weight.randomize()
-        self.learning_rate = 0.1
+        self.learning_rate = 1
 
     @staticmethod
     def GridToInput(a):
@@ -49,13 +50,13 @@ class AutoassociativeMemory():
         deltaWeight.multiplication(self.learning_rate)
         self.weight.add(deltaWeight)
 
-def drawing(dataset, filename):
+def drawing(dataset, pathname, filename):
     pixel_plot = plt.figure()
     pixel_plot = plt.imshow(dataset)
     plt.colorbar(pixel_plot)
-    plt.savefig('{}.png'.format(filename))
+    plt.savefig('{}/{}.png'.format(pathname, filename))
 
-def digit_recognition(number_epochs):
+def digits():
     zero = [
         [-1,1,1,1,-1],
         [1,-1,-1,-1,1],
@@ -83,24 +84,271 @@ def digit_recognition(number_epochs):
         [-1,1,1,1,1]
     ]
 
-    test_digit = [
+    three = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [-1,-1,-1,-1,1],
+        [-1,-1,-1,1,-1],
+        [1,-1,-1,-1,1],
+        [-1,1,1,1,-1]
+    ]
+
+    four = [
+        [-1,-1,-1,1,-1],
+        [-1,-1,1,1,-1],
+        [-1,1,-1,1,-1],
+        [1,-1,-1,1,-1],
+        [1,1,1,1,1],
+        [-1,-1,-1,1,-1]
+    ]
+
+    five = [
+        [1,1,1,1,1],
+        [1,-1,-1,-1,-1],
+        [1,1,1,1,-1],
+        [-1,-1,-1,-1,1],
+        [-1,-1,-1,-1,1],
+        [1,1,1,1,-1]
+    ]
+
+    six = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,-1],
+        [1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [1,-1,-1,-1,1],
+        [-1,1,1,1,-1]
+    ]
+
+    seven = [
+        [1,1,1,1,-1],
+        [-1,-1,-1,-1,1],
+        [-1,-1,-1,-1,1],
+        [-1,-1,-1,1,-1],
+        [-1,-1,-1,1,-1],
+        [-1,-1,-1,1,-1],
+    ]
+
+    eight = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [1,-1,-1,-1,1],
+        [-1,1,1,1,-1]
+    ]
+
+    nine = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [1,-1,-1,-1,1],
+        [-1,1,1,1,1],
+        [-1,-1,-1,-1,1],
+        [-1,1,1,1,-1]
+    ]
+
+    zero_50 = [
         [-1,1,1,1,-1],
         [1,-1,-1,-1,1],
         [1,-1,-1,-1,1],
         [-1,-1,-1,-1,-1],
         [-1,-1,-1,-1,-1],
-        [-1,-1,-1,-1,-1]
+        [-1,-1,-1,-1,-1],
     ]
 
-    dataset = [zero, one, two]
+    one_50 = [
+        [-1,1,1,-1,-1],
+        [-1,-1,1,-1,-1],
+        [-1,-1,1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    two_50 = [
+        [1,1,1,-1,-1],
+        [-1,-1,-1,1,-1],
+        [-1,-1,-1,1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    three_50 = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [-1,-1,-1,-1,1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    four_50 = [
+        [-1,-1,-1,1,-1],
+        [-1,-1,1,1,-1],
+        [-1,1,-1,1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    five_50 = [
+        [1,1,1,1,1],
+        [-1,1,1,1,1],
+        [1,1,1,1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    six_50 = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,-1],
+        [1,1,1,1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    seven_50 = [
+        [1,1,1,1,-1],
+        [-1,-1,-1,-1,1],
+        [-1,-1,-1,-1,1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    eight_50 = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [-1,1,1,1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    nine_50 = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [1,-1,-1,-1,1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    zero_67 = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    one_67 = [
+        [-1,1,1,-1,-1],
+        [-1,-1,1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    two_67 = [
+        [1,1,1,-1,-1],
+        [-1,-1,-1,1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    three_67 = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    four_67 = [
+        [-1,-1,-1,1,-1],
+        [-1,-1,1,1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    five_67 = [
+        [1,1,1,1,1],
+        [-1,1,1,1,1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    six_67 = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    seven_67 = [
+        [1,1,1,1,-1],
+        [-1,-1,-1,-1,1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    eight_67 = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    nine_67 = [
+        [-1,1,1,1,-1],
+        [1,-1,-1,-1,1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1],
+    ]
+
+    dataset = [zero, one, two, three, four, five, six, seven, eight, nine]
+    testing_50 = [zero_50, one_50, two_50, three_50, four_50, five_50, six_50, seven_50, eight_50, nine_50]
+    testing_67 = [zero_67, one_67, two_67, three_67, four_67, five_67, six_67, seven_67, eight_67, nine_67]
+
+    return dataset, testing_50, testing_67
+
+def digit_recognition():
+
+    dataset, testing_50, testing_67 = digits()
+
     amn = AutoassociativeMemory(6,5)
 
-    for i in range(number_epochs):
-        for data in dataset:
-            amn.train(data)
+    for i, data in enumerate(dataset):
+        drawing(data, './digit_normal','Digit {}'.format(i))
+        amn.train(data)
     
-    test = amn.feedforward(test_digit)
-    drawing(test_digit, 'Test Data')
-    drawing(AutoassociativeMemory.OutputToGrid(amn, test), 'Recognition')
+    for i, test_50 in enumerate(testing_50):
+        test = amn.feedforward(test_50)
+        drawing(AutoassociativeMemory.OutputToGrid(amn, test), './digit_50_predicted','Recognition of Digit {}'.format(i))
 
-digit_recognition(100)
+    for i, test_67 in enumerate(testing_67):
+        test = amn.feedforward(test_67)
+        drawing(AutoassociativeMemory.OutputToGrid(amn, test), './digit_67_predicted','Recognition of Digit {}'.format(i))
+
+digit_recognition()
