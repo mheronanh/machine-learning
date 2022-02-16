@@ -1,6 +1,6 @@
-from sklearn import datasets
 from matrix_lib import Matrix
 import matplotlib.pyplot as plt
+import random
 
 def hardlims(x):
     return 1 if x > 0 else -1
@@ -194,7 +194,7 @@ def digits():
 
     five_50 = [
         [1,1,1,1,1],
-        [-1,1,1,1,1],
+        [1,-1,-1,-1,-1],
         [1,1,1,1,-1],
         [-1,-1,-1,-1,-1],
         [-1,-1,-1,-1,-1],
@@ -284,7 +284,7 @@ def digits():
 
     five_67 = [
         [1,1,1,1,1],
-        [-1,1,1,1,1],
+        [1,-1,-1,-1,-1],
         [-1,-1,-1,-1,-1],
         [-1,-1,-1,-1,-1],
         [-1,-1,-1,-1,-1],
@@ -328,27 +328,46 @@ def digits():
     ]
 
     dataset = [zero, one, two, three, four, five, six, seven, eight, nine]
-    testing_50 = [zero_50, one_50, two_50, three_50, four_50, five_50, six_50, seven_50, eight_50, nine_50]
-    testing_67 = [zero_67, one_67, two_67, three_67, four_67, five_67, six_67, seven_67, eight_67, nine_67]
+    dataset_50 = [zero_50, one_50, two_50, three_50, four_50, five_50, six_50, seven_50, eight_50, nine_50]
+    dataset_67 = [zero_67, one_67, two_67, three_67, four_67, five_67, six_67, seven_67, eight_67, nine_67]
 
-    return dataset, testing_50, testing_67
+    dataset_noisy = []
+    for digit in dataset:
+        digit_noisy = digit.copy()
+        random.shuffle(digit_noisy)
+        dataset_noisy.append(digit_noisy)
+
+    return dataset, dataset_50, dataset_67, dataset_noisy
 
 def digit_recognition():
 
-    dataset, testing_50, testing_67 = digits()
+    dataset, dataset_50, dataset_67, dataset_noisy = digits()
 
     amn = AutoassociativeMemory(6,5)
 
     for i, data in enumerate(dataset):
         drawing(data, './digit_normal','Digit {}'.format(i))
         amn.train(data)
+
+    for i, data_noisy in enumerate(dataset_noisy):
+        drawing(data_noisy, './digit_noisy', 'Noisy Digit of {}'.format(i))
+
+    for i, data_50 in enumerate(dataset_50):
+        drawing(data_50, './digit_50', '50% Digit of {}'.format(i))
+
+    for i, data_67 in enumerate(dataset_67):
+        drawing(data_67, './digit_67', '67% Digit of {}'.format(i))
     
-    for i, test_50 in enumerate(testing_50):
+    for i, test_50 in enumerate(dataset_50):
         test = amn.feedforward(test_50)
         drawing(AutoassociativeMemory.OutputToGrid(amn, test), './digit_50_predicted','Recognition of Digit {}'.format(i))
 
-    for i, test_67 in enumerate(testing_67):
+    for i, test_67 in enumerate(dataset_67):
         test = amn.feedforward(test_67)
         drawing(AutoassociativeMemory.OutputToGrid(amn, test), './digit_67_predicted','Recognition of Digit {}'.format(i))
+
+    for i, test_noisy in enumerate(dataset_noisy):
+        test = amn.feedforward(test_noisy)
+        drawing(AutoassociativeMemory.OutputToGrid(amn, test), './digit_noisy_predicted','Recognition of Digit {}'.format(i))
 
 digit_recognition()

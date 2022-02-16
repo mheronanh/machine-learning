@@ -25,7 +25,7 @@ def evaluate(dataset, w, b):
         prediction = perceptron(data, w, b)
         error = prediction - data[-1]
         if error == 0.0:
-            print("Prediction is Correct")
+            print("Input: {} AND {}, Predicted Output: {}".format(data[0], data[1], prediction))
         else:
             print("Prediction is False")
 

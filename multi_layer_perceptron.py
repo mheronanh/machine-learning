@@ -108,9 +108,14 @@ def XOR_testing(number_epochs):
         for data in training_data:
             neuralnet.train(data[0], data[-1])
     
-    print(neuralnet.feedforward([1,0]))
-    print(neuralnet.feedforward([0,1]))
-    print(neuralnet.feedforward([0,0]))
-    print(neuralnet.feedforward([1,1]))
+    print("Number of Epoch: {}".format(number_epochs))
+    print("Weight Input-Hidden: {}".format(neuralnet.weight_ih.data))
+    print("Bias Hidden: {}".format(neuralnet.bias_h.data))
+    print("Weight Hidden-Output: {}".format(neuralnet.weight_ho.data))
+    print("Bias Output: {}".format(neuralnet.bias_o.data))
+    print("Input: {}, Predicted Output: {}".format([1,0],neuralnet.feedforward([1,0])))
+    print("Input: {}, Predicted Output: {}".format([0,1],neuralnet.feedforward([0,1])))
+    print("Input: {}, Predicted Output: {}".format([0,0],neuralnet.feedforward([0,0])))
+    print("Input: {}, Predicted Output: {}".format([1,1],neuralnet.feedforward([1,1])))
 
 XOR_testing(5000)
