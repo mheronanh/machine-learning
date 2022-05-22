@@ -20,7 +20,7 @@ class GeneticAlgorithm():
         self.crossovered = []
 
         # Initialize data
-        self.xData, self.yData = self.transferFunction([1.], [1.,1.,1,1,1], 0., 1.5, 50)
+        self.xData, self.yData = self.transferFunction([1., 1., 1., 1.], [1., 3, 2, 5], 0., 3, 50)
 
         self.best = 0
         self.best_eval = self.fitnessScoring(self.xData, self.yData, self.decode(self.n_bits, self.n_zero, self.n_pole, self.population[0]), self.n_zero, self.n_pole)
@@ -28,7 +28,8 @@ class GeneticAlgorithm():
     def selection(self, k=3):
         # Using Tournament Selection with k=3 as default parameter
         for _ in range(self.n_pop):
-            selection_index = np.random.randint(len(self.population))
+            bestSelection = max(self.scores)
+            selection_index = self.scores.index(bestSelection)
             for index in np.random.randint(0, len(self.population), k-1):
                 if self.scores[index] < self.scores[selection_index]:
                     selection_index = index
@@ -77,13 +78,13 @@ class GeneticAlgorithm():
     def transferFunction(numerator, denumerator, startPoint, endPoint, sampleSize):
         t = np.linspace(startPoint, endPoint, sampleSize)
         sys = control.tf(numerator, denumerator)
-        T, yOut = control.impulse_response(sys, T=t)
+        T, yOut = control.step_response(sys, T=t)
         return T, yOut
 
     @staticmethod
     def fitnessScoring(xData, yData, coefTest, n_zero, n_pole):
         sys = control.tf(coefTest[:n_zero], coefTest[n_zero:])
-        T, yOut =  control.impulse_response(sys, T=xData)
+        T, yOut =  control.step_response(sys, T=xData)
         fitnessScore = 0
         for i in range(len(yData)):
             fitnessScore += np.abs(yData[i]-yOut[i])
@@ -105,20 +106,25 @@ class GeneticAlgorithm():
                 substring = bitstring[start:end]
                 chars = ''.join([str(s) for s in substring])
                 integer = int(chars, 2)
-                value = -5 + (integer/largest) * (20)
+                value = (integer/largest)
                 decoded.append(value)
             state += 1
         return decoded
 
-#a = GeneticAlgorithm(8, 250, 500, 1, 5, 0.9)
-#a.process()
+a = GeneticAlgorithm(8, 100, 1500, 4, 4, 0.9)
+a.process()
 
-#'''
-t = np.linspace(0., 1.5, 50)
-sys = control.tf([7.734375],[7.734375, 7.890625, 7.03125, 7.109375, 13.203125])
-T, yout = control.impulse_response(sys, T=t) # HERE is what I wanted
+'''
+t = np.linspace(0., 3, 50)
+sys_prob = control.tf([1.], [1., 3, 2, 5])
+print(sys_prob)
+sys_ans = control.tf([0.171875], [0.171875, 0.5625, 0.27734375, 0.93359375])
+T, yout_prob = control.impulse_response(sys_prob, T=t)
+T, yout_ans = control.impulse_response(sys_ans, T=t)
 
-plt.plot(T, yout, 'r', label='simulated')
+plt.plot(T, yout_prob, 'r', label = 'Target')
+plt.plot(T, yout_ans, 'b', label = 'Answer')
+plt.title('System Response')
 plt.legend()
 plt.show()
-#'''
+'''
